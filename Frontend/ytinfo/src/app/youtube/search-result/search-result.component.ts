@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { VideoInfo } from '../video-info-module';
 import { YoutubeSearchService } from 'src/app/services/youtube-search.service';
-import {  NgxSpinnerService } from 'ngx-spinner'
+
 
 @Component({
   selector: 'app-search-result',
@@ -12,16 +12,25 @@ export class SearchResultComponent implements OnInit {
   @Input() result: VideoInfo;
   comments: any;
 
-  constructor(private youtubesearchservice: YoutubeSearchService, private spinner: NgxSpinnerService ) {}
+  constructor(private youtubesearchservice: YoutubeSearchService ) {}
 
 
   ngOnInit(): void {
-    this.spinner.show()
-    setTimeout(()=>{this.spinner.hide()},3000)
+
   }
 
   onClick(){
     this.youtubesearchservice.saveVideoComments(this.result.id).subscribe(
+      (data) => {
+        this.comments = data;
+        var response = JSON.stringify(data);
+        console.log(data);
+      }
+    )
+  }
+
+  onClick2(){
+    this.youtubesearchservice.downloadVideoComments(this.result.id).subscribe(
       (data) => {
         this.comments = data;
         var response = JSON.stringify(data);

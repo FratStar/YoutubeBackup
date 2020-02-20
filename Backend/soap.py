@@ -2,7 +2,7 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 from spyne import Application, rpc, ServiceBase, Integer, Unicode, String, File
 from spyne import Iterable
-import requests, os, shutil
+import requests, os, shutil, sys
 from spyne.protocol.xml import XmlDocument
 from spyne.protocol.json import JsonDocument
 from spyne.server.wsgi import WsgiApplication
@@ -13,10 +13,13 @@ class FileBackup(ServiceBase):
     def download(self, file, videoId):
         os.path.exists(file)
         downloads = os.path.join(os.getenv('USERPROFILE'), 'Downloads')
-        data = open('comments.csv', 'rb')
-        with open(downloads + videoId + '_' + file, 'wb') as out_file:
+        print(downloads, file=sys.stdout)
+        data = open(file, 'rb')
+        print (data, file=sys.stdout)
+        with open(downloads + '\\' + videoId + '_' + file, 'wb') as out_file:
+            print(out_file, file=sys.stdout)
             shutil.copyfileobj(data, out_file)
-        yield f'{file} downloaded'
+        yield  'file downloaded'
 
 soap_app = Application([FileBackup], tns='spyne.file.FileBackup',
                         in_protocol=Soap11(validator='lxml'),

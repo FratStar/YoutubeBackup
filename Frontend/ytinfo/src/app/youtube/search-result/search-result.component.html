@@ -1,12 +1,24 @@
-	<div class="col-sm-6 col-md-4">
-    <ngx-spinner
-  bdColor="rgba(51,51,51,0.8)"
-  size="medium"
-  color="#fff"
-  type="ball-scale-multiple"
->
-  <p style="font-size: 20px; color: white">Loading...</p>
-</ngx-spinner>
+<mat-card class="result-card">
+    <mat-card-header>
+      <mat-card-title>
+      </mat-card-title>
+    </mat-card-header>
+    <img mat-card-image src="{{ result.thumbnailUrl }}">
+    <mat-card-content>
+    <div class="caption">
+      <h2>{{ result.title }}</h2>
+      <p>{{ result.description }}</p>
+    </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <a mat-raised-button href="{{ result.videoUrl }}" >Watch</a>
+      <button mat-raised-button (click)="onClick()">Backup Video Comments!</button>
+      <button mat-raised-button (click)="onClick2()">Download Video Comments!</button>
+    </mat-card-actions>
+</mat-card>
+
+
+<!--<div class="col-sm-6 col-md-4">
   <div class="thumbnail">
     <img src="{{result.thumbnailUrl}}">
     <div class="caption">
@@ -15,7 +27,6 @@
       <p><a href="{{result.videoUrl}}" class="btn btn-default" role="button">
           Watch</a>
       </p>
-      <button (click)="onClick()">Save Video Comments!</button>
     </div>
   </div>
-</div>
+</div>-->

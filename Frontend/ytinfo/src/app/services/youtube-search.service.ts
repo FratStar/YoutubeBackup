@@ -55,10 +55,23 @@ export class YoutubeSearchService {
       (data) => { console.info(data)
       }
     );
-    return this.http.get(`${API_URL}/saveComment`, options)
+    return this.http.get(`${API_URL}/saveComments`, options)
     .pipe(
       catchError(this.handleError)
         );
+}
+
+downloadVideoComments(videoId: string) {
+  const options = {headers: {'Content-Type':  'application/json'}};
+  var data = {"videoId": videoId, "key": YOUTUBE_API_KEY, "url": YOUTUBE_API_URL, "feature": YOUTUBE_API_FEATURE[1]};
+  this.http.post<JSON>(`${API_URL}/downloadComments`, JSON.stringify(data), options).subscribe(
+    (data) => { console.info(data)
+    }
+  );
+  return this.http.get(`${API_URL}/downloadComments`, options)
+  .pipe(
+    catchError(this.handleError)
+      );
 }
 
 

@@ -1,10 +1,9 @@
-from collections import namedtuple
 from fastapi import FastAPI
 from fastapi.security import OAuth2
 from starlette.requests import Request
 from starlette.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-import uvicorn, requests, json, settings, yt, drive, pprint, pandas as pd
+import uvicorn, json, settings, yt, drive, pprint, pandas as pd
 
 settings.init()
 app = FastAPI()
@@ -49,8 +48,12 @@ async def saveComments(input: rawInput, request: Request):
     df.to_csv('comments.csv')
     drive.uploadFile('comments.csv','text/csv')
     settings.client.service.download('comments.csv', input.videoId)
+    return {"Message": "Comments saved"}
 
-    return {"Message": "Comments saved and downloaded"}
+@app.post("/downloadComments")
+async def downloadComments(input: rawInput, request: Request):
+    settings.client.service.download('comments.csv', input.videoId)
+    return {"Message": "Comments saved"}
 
 if __name__ == '__main__':
     uvicorn.run(app, host='0.0.0.0', port=5000)
